@@ -3,6 +3,8 @@
  */
 package org.naresh.javariders;
 
+import java.util.Date;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -22,7 +24,10 @@ public class HibernateMain {
 		UserDetails userDetails = new UserDetails();
 
 		userDetails.setUserId(1);
-		userDetails.setUserName("Naresh");
+		userDetails.setUserName("Third Naresh");
+		userDetails.setAddress("Addre Naresh");
+		userDetails.setDescription("Description Naresh");
+		userDetails.setJoinedDate(new Date());
 
 		Configuration config =	new Configuration().configure();
 		SessionFactory sessionFactory = config.buildSessionFactory();
@@ -31,6 +36,19 @@ public class HibernateMain {
 		session.beginTransaction();
 		session.save(userDetails);
 		session.getTransaction().commit();
+		session.close();
+		
+		
+		userDetails = null;
+		
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+		userDetails = (UserDetails) session.get(UserDetails.class, 1);
+		
+		System.out.println(userDetails.getUserName());
+		
+		
+		
 	}
 
 }
